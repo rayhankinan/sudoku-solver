@@ -29,6 +29,10 @@ public class Markup {
         this.valueBuffer.remove(value);
     }
 
+    public Set<Integer> getValueBuffer() {
+        return this.valueBuffer;
+    }
+
     public int getSize() {
         return this.valueBuffer.size();
     }

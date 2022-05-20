@@ -309,6 +309,38 @@ public class Sudoku {
         } while (!oldSolution.equals(this));
     }
 
+    public boolean isSolved() throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (this.getCell(i, j).getValue() == 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public Cell getFirstEmptyCell() throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (this.getCell(i, j).getValue() == 0) {
+                    return this.getCell(i, j);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Sudoku changeFirstEmptyCell(int value) throws SudokuException {
+        Sudoku newSudoku = this.cloneSudoku();
+        Cell firstEmptyCell = newSudoku.getFirstEmptyCell();
+        firstEmptyCell.setManual(value);
+
+        return newSudoku;
+    }
+
     public void print() {
         for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {

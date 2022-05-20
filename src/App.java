@@ -20,7 +20,7 @@ public class App {
 
             searchTree.solve();
 
-            searchTree.getRoot().print();
+            searchTree.getSolution().print();
         }
 
         scanner.close();

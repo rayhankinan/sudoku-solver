@@ -35,6 +35,16 @@ public class Cell {
         this.value = this.markup.getSingleton();
     }
 
+    public void setManual(int value) throws SudokuException {
+        if (this.markup.contains(value)) {
+            this.value = value;
+            this.markup.clear();
+
+        } else {
+            throw new SudokuException(String.format("Invalid cell value (%d)!", value));
+        }
+    }
+
     public boolean equals(Cell C) {
         return this.value == C.value && this.markup.equals(C.markup);
     }
