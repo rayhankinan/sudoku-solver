@@ -125,4 +125,31 @@ public class Sudoku {
 
         return S;
     }
+
+    public void loopBasic() throws SudokuException {
+        Sudoku oldSimpleSolution;
+
+        do {
+            oldSimpleSolution = this.cloneSudoku();
+
+            /* MARKUP EVERY CELL */
+            this.markupAllCell();
+
+            /* FIND ALL SINGLETON */
+            this.findAllSingleton();
+
+        } while (!oldSimpleSolution.equals(this));
+    }
+
+    public void loopCrooker() throws SudokuException {
+        Sudoku oldCrookerSolution;
+        do {
+            oldCrookerSolution = this.cloneSudoku();
+            
+            /* TODO: SOLVE USING CROOK'S ALGORITHM */
+
+            
+
+        } while(!oldCrookerSolution.equals(this));
+    }
 }
