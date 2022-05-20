@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Markup {
-    private final Set<Integer> valueBuffer;
+    private Set<Integer> valueBuffer;
 
     public Markup() {
         this.valueBuffer = new HashSet<>();
@@ -42,5 +42,20 @@ public class Markup {
 
             return it.next();
         }
+    }
+
+    public void clear() {
+        this.valueBuffer.clear();
+    }
+
+    public Markup cloneMarkup() throws SudokuException {
+        Markup M = new Markup();
+
+        Iterator<Integer> it = this.valueBuffer.iterator();
+        while (it.hasNext()) {
+            M.valueBuffer.add(it.next());
+        }
+
+        return M;
     }
 }

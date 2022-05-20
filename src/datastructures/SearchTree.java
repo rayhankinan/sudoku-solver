@@ -8,14 +8,32 @@ public class SearchTree {
     }
 
     public void solve() throws SudokuException {
-        /* TODO: SOLVE USING CROOK'S ALGORITHM */
+        Sudoku oldSolution;
 
-        /* STEP 1: MARKUP EVERY CELL */
-        this.root.markupAllCell();
+        do {
+            /* SIMPLE SOLUTION */
+            oldSolution = this.root.cloneSudoku();
 
-        /* STEP 2: FIND ALL SINGLETON */
-        this.root.findAllSingleton();
+            Sudoku oldSimpleSolution;
+            do {
+                oldSimpleSolution = this.root.cloneSudoku();
 
-        /* STEP 3: FIND PREEMPTIVE SETS */
+                /* STEP 1: MARKUP EVERY CELL */
+                this.root.markupAllCell();
+
+                /* STEP 2: FIND ALL SINGLETON */
+                this.root.findAllSingleton();
+
+            } while (!oldSimpleSolution.equals(this.root));
+
+            /* TODO: SOLVE USING CROOK'S ALGORITHM */
+            Sudoku oldCrookerSolution;
+            do {
+                oldCrookerSolution = this.root.cloneSudoku();
+
+            } while(!oldCrookerSolution.equals(this.root));
+
+
+        } while (!oldSolution.equals(this.root));
     }
 }

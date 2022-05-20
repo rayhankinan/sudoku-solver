@@ -3,12 +3,10 @@ package datastructures;
 public class Sudoku {
     public static final int size = 3;
 
-    private final Cell buffer[][];
-    private final PreemptiveSet preemptiveSet;
+    private Cell buffer[][];
 
     public Sudoku() {
         this.buffer = new Cell[Sudoku.size * Sudoku.size][Sudoku.size * Sudoku.size];
-        this.preemptiveSet = new PreemptiveSet();
     }
 
     public Cell getCell(int N, int M) throws SudokuException {
@@ -65,14 +63,12 @@ public class Sudoku {
         this.buffer[N][M] = C;
     }
 
-    public PreemptiveSet getPreemptiveSet() {
-        return this.preemptiveSet;
-    }
-
     public void markupAllCell() throws SudokuException {
         for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
-                if (this.getCell(i, j).getValue() == -1) {
+                if (this.getCell(i, j).getValue() == 0) {
+                    this.getCell(i, j).getMarkup().clear();
+
                     for (int initialValue = 1; initialValue <= Sudoku.size * Sudoku.size; initialValue++) {
                         this.getCell(i, j).getMarkup().addValue(initialValue);
                     }
@@ -104,5 +100,29 @@ public class Sudoku {
                 this.getCell(i, j).setSingleton();
             }
         }
+    }
+
+    public boolean equals(Sudoku S) throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (!this.getCell(i, j).equals(S.getCell(i, j))) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public Sudoku cloneSudoku() throws SudokuException {
+        Sudoku S = new Sudoku();
+
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                S.buffer[i][j] = this.buffer[i][j].cloneCell();
+            }
+        }
+
+        return S;
     }
 }

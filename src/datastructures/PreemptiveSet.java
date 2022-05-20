@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PreemptiveSet {
-    private final Map<Integer, Cell> buffer;
+    private Map<Integer, Cell> buffer;
 
     public PreemptiveSet() {
         this.buffer = new HashMap<>();

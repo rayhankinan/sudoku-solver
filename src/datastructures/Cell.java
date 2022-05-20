@@ -2,7 +2,7 @@ package datastructures;
 
 public class Cell {
     private int value;
-    private final Markup markup;
+    private Markup markup;
 
     public Cell(int value) throws SudokuException {
         if (value <= 0 || value > Sudoku.size * Sudoku.size) {
@@ -33,5 +33,17 @@ public class Cell {
 
     public void setSingleton() throws SudokuException {
         this.value = this.markup.getSingleton();
+    }
+
+    public boolean equals(Cell C) {
+        return this.value == C.value;
+    }
+
+    public Cell cloneCell() throws SudokuException {
+        Cell C = new Cell(this.value);
+
+        C.markup = this.markup.cloneMarkup();
+
+        return C;
     }
 }
