@@ -123,6 +123,7 @@ public class Sudoku {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
                 try {
                     this.getCell(i, j).setSingleton();
+
                 } catch (SudokuException e) {
                     continue;
                 }
@@ -312,9 +313,12 @@ public class Sudoku {
         for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
                 if (j < Sudoku.size * Sudoku.size - 1) {
-                    System.out.printf("%d ", this.buffer[i][j].getValue());
+                    // System.out.printf("%d ", this.buffer[i][j].getValue());
+                    System.out.printf("%d ", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
+
                 } else {
-                    System.out.printf("%d\n", this.buffer[i][j].getValue());
+                    // System.out.printf("%d\n", this.buffer[i][j].getValue());
+                    System.out.printf("%d\n", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
                 }
             }
         }

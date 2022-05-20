@@ -30,7 +30,7 @@ public class CSVReader {
             scanner.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Maaf, file tidak ditemukan!");
         }
     }
 

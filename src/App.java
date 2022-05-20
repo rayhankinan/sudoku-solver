@@ -14,11 +14,14 @@ public class App {
         CSVReader csvReader = new CSVReader(filename);
 
         Sudoku sudoku = csvReader.getSudoku();
-        SearchTree searchTree = new SearchTree(sudoku);
 
-        searchTree.solve();
+        if (sudoku != null) {
+            SearchTree searchTree = new SearchTree(sudoku);
 
-        searchTree.getRoot().print();
+            searchTree.solve();
+
+            searchTree.getRoot().print();
+        }
 
         scanner.close();
     }
