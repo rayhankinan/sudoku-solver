@@ -336,9 +336,14 @@ public class Sudoku {
     public Sudoku changeFirstEmptyCell(int value) throws SudokuException {
         Sudoku newSudoku = this.cloneSudoku();
         Cell firstEmptyCell = newSudoku.getFirstEmptyCell();
-        firstEmptyCell.setManual(value);
 
-        return newSudoku;
+        if (firstEmptyCell == null) {
+            throw new SudokuException("There is no empty cell left!");
+            
+        } else {
+            firstEmptyCell.setManual(value);
+            return newSudoku;
+        }
     }
 
     public void print() {
