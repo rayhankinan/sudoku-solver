@@ -1,6 +1,7 @@
 package datastructures;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Markup {
@@ -25,5 +26,21 @@ public class Markup {
 
     public void removeValue(int value) {
         this.valueBuffer.remove(value);
+    }
+
+    public int getSizeValue() {
+        return this.valueBuffer.size();
+    }
+
+    public int getSingleton() throws SudokuException {
+        if (this.valueBuffer.size() != 1) {
+            throw new SudokuException("Markup is not a singleton!");
+
+        } else {
+            Iterator<Integer> it = this.valueBuffer.iterator();
+            this.valueBuffer.clear();
+
+            return it.next();
+        }
     }
 }

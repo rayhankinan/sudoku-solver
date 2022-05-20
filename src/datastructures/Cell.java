@@ -30,4 +30,8 @@ public class Cell {
     public Markup getMarkup() {
         return this.markup;
     }
+
+    public void setSingleton() throws SudokuException {
+        this.value = this.markup.getSingleton();
+    }
 }

@@ -68,4 +68,41 @@ public class Sudoku {
     public PreemptiveSet getPreemptiveSet() {
         return this.preemptiveSet;
     }
+
+    public void markupAllCell() throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (this.getCell(i, j).getValue() == -1) {
+                    for (int initialValue = 1; initialValue <= Sudoku.size * Sudoku.size; initialValue++) {
+                        this.getCell(i, j).getMarkup().addValue(initialValue);
+                    }
+
+                    Cell[] row = this.getRow(i);
+                    for (Cell cell : row) {
+                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                    }
+    
+                    Cell[] column = this.getColumn(j);
+                    for (Cell cell : column) {
+                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                    }
+    
+                    Cell[][] grid = this.getGrid(i, j);
+                    for (Cell[] buffer : grid) {
+                        for (Cell cell : buffer) {
+                            this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void findAllSingleton() throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                this.getCell(i, j).setSingleton();
+            }
+        }
+    }
 }
