@@ -35,7 +35,7 @@ public class SearchTree {
                 }
 
                 if (this.root.getCell(i, j).getValue() != -1) {
-                    throw new SudokuException("Invalid sudoku grid!");
+                    throw new SudokuException(String.format("Invalid sudoku grid in index (%d, %d)!", i, j));
                 }
             }
         }
