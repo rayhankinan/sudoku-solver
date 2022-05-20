@@ -2,7 +2,7 @@ package datastructures;
 
 public class Cell {
     private int value;
-    private Markup markup;
+    private final Markup markup;
 
     public Cell(int value) {
         this.value = value;
@@ -11,6 +11,10 @@ public class Cell {
 
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public Markup getMarkup() {

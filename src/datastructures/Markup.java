@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Markup {
-    private Set<Integer> valueBuffer;
+    private final Set<Integer> valueBuffer;
 
     public Markup() {
         this.valueBuffer = new HashSet<>();
