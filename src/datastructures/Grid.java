@@ -27,20 +27,21 @@ public class Grid {
         int min = Sudoku.size * Sudoku.size;
 
         for (Cell[] row : this.buffer) {
-            for (Cell C : row) {
-                min = C.getMarkup().getSize() < min ? C.getMarkup().getSize() : min;
+            for (Cell cell : row) {
+                min = cell.getMarkup().getSize() < min ? cell.getMarkup().getSize() : min;
             }
         }
 
         return min;
     }
 
-    public void loopGrid() {
-        int min = this.getMinMarkupLength();
-        int max = this.getMaxMarkupLength();
-
-        for (int K = max; K >= min; K--) {
-            /* TODO: SOLVE USING CROOK'S ALGORITHM */
+    public void removeAllCell(PreemptiveSet preemptiveSet) {
+        for (Cell[] row : this.buffer) {
+            for (Cell cell : row) {
+                if (!preemptiveSet.getCellBuffer().contains(cell)) {
+                    cell.getMarkup().removeAll(preemptiveSet.getMarkup());
+                }
+            }
         }
     }
 }

@@ -1,34 +1,31 @@
 package datastructures;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PreemptiveSet {
-    private Map<Integer, Cell> buffer;
+    private Set<Cell> cellBuffer;
+    private Markup markup;
 
     public PreemptiveSet() {
-        this.buffer = new HashMap<>();
+        this.cellBuffer = new HashSet<>();
+        this.markup = new Markup();
     }
 
-    public void add(int value, Cell C) throws SudokuException {
-        if (value <= 0 || value > Sudoku.size * Sudoku.size) {
-            throw new SudokuException(String.format("Invalid cell value (%d)!", value));
-
-        } else {
-            this.buffer.put(value, C);
-        }
+    public void add(Cell C) {
+        this.cellBuffer.add(C);
+        this.markup.addAll(C.getMarkup());
     }
 
-    public Cell get(int value) throws SudokuException {
-        if (this.buffer.get(value) == null) {
-            throw new SudokuException(String.format("Invalid cell value (%d)!", value));
-
-        } else {
-            return this.buffer.get(value);
-        }
+    public Set<Cell> getCellBuffer() {
+        return this.cellBuffer;
     }
 
-    public void remove(int value) {
-        this.buffer.remove(value);
+    public Markup getMarkup() {
+        return this.markup;
+    }
+
+    public int getSizeCell() {
+        return this.cellBuffer.size();
     }
 }

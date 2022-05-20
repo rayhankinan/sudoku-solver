@@ -1,5 +1,9 @@
+import algorithms.SearchTree;
+import datastructures.Sudoku;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        Sudoku sudoku = new Sudoku();
+        SearchTree searchTree = new SearchTree(sudoku);
     }
 }

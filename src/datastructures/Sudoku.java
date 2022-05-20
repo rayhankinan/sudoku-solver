@@ -94,23 +94,23 @@ public class Sudoku {
                     this.getCell(i, j).getMarkup().clear();
 
                     for (int initialValue = 1; initialValue <= Sudoku.size * Sudoku.size; initialValue++) {
-                        this.getCell(i, j).getMarkup().addValue(initialValue);
+                        this.getCell(i, j).getMarkup().add(initialValue);
                     }
 
                     Row row = this.getRow(i);
                     for (Cell cell : row.getBuffer()) {
-                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                        this.getCell(i, j).getMarkup().remove(cell.getValue());
                     }
     
                     Column column = this.getColumn(j);
                     for (Cell cell : column.getBuffer()) {
-                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                        this.getCell(i, j).getMarkup().remove(cell.getValue());
                     }
     
                     Grid grid = this.getGrid(i, j);
                     for (Cell[] buffer : grid.getBuffer()) {
                         for (Cell cell : buffer) {
-                            this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                            this.getCell(i, j).getMarkup().remove(cell.getValue());
                         }
                     }
                 }
@@ -144,9 +144,28 @@ public class Sudoku {
     public void loopAllRow() throws SudokuException {
         for (int N = 0; N < Sudoku.size * Sudoku.size; N++) {
             Row row = this.getRow(N);
-            
-            row.loopRow();
-            this.loopBasic();
+
+            int min = row.getMinMarkupLength();
+            int max = row.getMaxMarkupLength();
+
+            for (int K = max; K >= min; K--) {
+                for (Cell currentCell : row.getBuffer()) {
+                    if (currentCell.getMarkup().getSize() == K) {
+                        PreemptiveSet preemptiveSet = new PreemptiveSet();
+
+                        for (Cell travellingCell : row.getBuffer()) {
+                            if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                                preemptiveSet.add(travellingCell);
+                            }
+                        }
+
+                        if (preemptiveSet.getSizeCell() == K) {
+                            row.removeAllCell(preemptiveSet);
+                            this.loopBasic();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -154,8 +173,27 @@ public class Sudoku {
         for (int M = 0; M < Sudoku.size * Sudoku.size; M++) {
             Column column = this.getColumn(M);
 
-            column.loopColumn();
-            this.loopBasic();
+            int min = column.getMinMarkupLength();
+            int max = column.getMaxMarkupLength();
+
+            for (int K = max; K >= min; K--) {
+                for (Cell currentCell : column.getBuffer()) {
+                    if (currentCell.getMarkup().getSize() == K) {
+                        PreemptiveSet preemptiveSet = new PreemptiveSet();
+
+                        for (Cell travellingCell : column.getBuffer()) {
+                            if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                                preemptiveSet.add(travellingCell);
+                            }
+                        }
+
+                        if (preemptiveSet.getSizeCell() == K) {
+                            column.removeAllCell(preemptiveSet);
+                            this.loopBasic();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -164,8 +202,31 @@ public class Sudoku {
             for (int M = 0; M < Sudoku.size; M++) {
                 Grid grid = this.getGrid(N, M);
 
-                grid.loopGrid();
-                this.loopBasic();
+                int min = grid.getMinMarkupLength();
+                int max = grid.getMaxMarkupLength();
+
+                for (int K = max; K >= min; K--) {
+                    for (Cell[] currentRow : grid.getBuffer()) {
+                        for (Cell currentCell : currentRow) {
+                            if (currentCell.getMarkup().getSize() == K) {
+                                PreemptiveSet preemptiveSet = new PreemptiveSet();
+                                
+                                for (Cell[] travellingRow : grid.getBuffer()) {
+                                    for (Cell travellingCell : travellingRow) {
+                                        if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                                            preemptiveSet.add(travellingCell);
+                                        }
+                                    }
+                                }
+
+                                if (preemptiveSet.getSizeCell() == K) {
+                                    grid.removeAllCell(preemptiveSet);
+                                    this.loopBasic();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

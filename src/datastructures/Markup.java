@@ -11,7 +11,7 @@ public class Markup {
         this.valueBuffer = new HashSet<>();
     }
 
-    public void addValue(int value) throws SudokuException {
+    public void add(int value) throws SudokuException {
         if (value <= 0 || value > Sudoku.size * Sudoku.size) {
             throw new SudokuException(String.format("Invalid cell value (%d)!", value));
 
@@ -20,15 +20,15 @@ public class Markup {
         }
     }
 
-    public boolean containsValue(int value) {
+    public boolean contains(int value) {
         return this.valueBuffer.contains(value);
     }
 
-    public void removeValue(int value) {
+    public void remove(int value) {
         this.valueBuffer.remove(value);
     }
 
-    public int getSizeValue() {
+    public int getSize() {
         return this.valueBuffer.size();
     }
 
@@ -42,6 +42,10 @@ public class Markup {
 
             return it.next();
         }
+    }
+
+    public boolean equals(Markup markup) {
+        return this.valueBuffer.equals(markup.valueBuffer);
     }
 
     public void clear() {
@@ -59,7 +63,15 @@ public class Markup {
         return M;
     }
 
-    public int getSize() {
-        return this.valueBuffer.size();
+    public void addAll(Markup markup) {
+        this.valueBuffer.addAll(markup.valueBuffer);
+    }
+
+    public boolean containsAll(Markup markup) {
+        return this.valueBuffer.containsAll(markup.valueBuffer);
+    }
+
+    public void removeAll(Markup markup) {
+        this.valueBuffer.removeAll(markup.valueBuffer);
     }
 }

@@ -36,7 +36,7 @@ public class Cell {
     }
 
     public boolean equals(Cell C) {
-        return this.value == C.value;
+        return this.value == C.value && this.markup.equals(C.markup);
     }
 
     public Cell cloneCell() throws SudokuException {

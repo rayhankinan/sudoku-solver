@@ -31,12 +31,11 @@ public class Row {
         return min;
     }
 
-    public void loopRow() {
-        int min = this.getMinMarkupLength();
-        int max = this.getMaxMarkupLength();
-
-        for (int K = max; K >= min; K--) {
-            /* TODO: SOLVE USING CROOK'S ALGORITHM */
+    public void removeAllCell(PreemptiveSet preemptiveSet) {
+        for (Cell cell : this.buffer) {
+            if (!preemptiveSet.getCellBuffer().contains(cell)) {
+                cell.getMarkup().removeAll(preemptiveSet.getMarkup());
+            }
         }
     }
 }
