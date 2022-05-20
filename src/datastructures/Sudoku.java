@@ -238,17 +238,43 @@ public class Sudoku {
                 Row row = this.getRow(N);
                 Column column = this.getColumn(M);
 
-                PreemptiveSet preemptiveSetRow = new PreemptiveSet();
-                for (Cell C : grid.getRow(N % Sudoku.size).getBuffer()) {
-                    preemptiveSetRow.add(C);
-                }
-                row.removeAllCell(preemptiveSetRow);
+                for (int K = Sudoku.size; K >= 2; K--) {
+                    for (Cell currentCell : grid.getRow(N % Sudoku.size).getBuffer()) {
+                        if (currentCell.getMarkup().getSize() == K) {
+                            PreemptiveSet preemptiveSet = new PreemptiveSet();
+                            
+                            for (Cell travellingCell : row.getBuffer()) {
+                                if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                                    preemptiveSet.add(travellingCell);
+                                }
+                            }
 
-                PreemptiveSet preemptiveSetColumn = new PreemptiveSet();
-                for (Cell C : grid.getColumn(M & Sudoku.size).getBuffer()) {
-                    preemptiveSetRow.add(C);
+                            if (preemptiveSet.getSizeCell() == K) {
+                                row.removeAllCell(preemptiveSet);
+                                this.loopBasic();
+                            }
+                        }
+                    }
                 }
-                column.removeAllCell(preemptiveSetColumn);
+
+                for (int K = Sudoku.size; K >= 2; K--) {
+                    for (Cell currentCell : grid.getColumn(M % Sudoku.size).getBuffer()) {
+                        if (currentCell.getMarkup().getSize() == K) {
+                            PreemptiveSet preemptiveSet = new PreemptiveSet();
+                            
+                            for (Cell travellingCell : column.getBuffer()) {
+                                if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                                    preemptiveSet.add(travellingCell);
+                                }
+                            }
+
+                            if (preemptiveSet.getSizeCell() == K) {
+                                column.removeAllCell(preemptiveSet);
+                                this.loopBasic();
+                            }
+                        }
+                    }
+                }
             }
         }
     }
