@@ -339,9 +339,12 @@ public class Sudoku {
 
         if (firstEmptyCell == null) {
             throw new SudokuException("There is no empty cell left!");
-            
+
         } else {
             firstEmptyCell.setManual(value);
+
+            /* TODO: UBAH MARKUP SUDOKU KETIKA SET MANUAL */
+
             return newSudoku;
         }
     }

@@ -1,7 +1,6 @@
 package algorithms;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
 
 import datastructures.Cell;
 import datastructures.Sudoku;
@@ -17,13 +16,13 @@ public class SearchTree {
     }
 
     public void solve() throws SudokuException {
-        Queue<Sudoku> Q = new LinkedList<>();
+        Stack<Sudoku> S = new Stack<>();
 
         this.root.solve();
-        Q.add(this.root);
+        S.push(this.root);
 
-        while (!Q.isEmpty()) {
-            Sudoku currentSudoku = Q.poll();
+        while (!S.isEmpty()) {
+            Sudoku currentSudoku = S.pop();
 
             if (currentSudoku.isSolved()) {
                 this.solution = currentSudoku;
@@ -34,7 +33,9 @@ public class SearchTree {
                 for (int value : firstEmptyCell.getMarkup().getValueBuffer()) {
                     Sudoku newSudoku = currentSudoku.changeFirstEmptyCell(value);
 
-                    newSudoku.solve();
+                    newSudoku.solve(); /* TODO: HAPUS METHOD SOLVE KRN SUDAH DIPINDAHKAN KE METHOD CHANGEFIRSTEMPTYCELL */
+
+                    S.push(newSudoku);
                 }
             }
         }
