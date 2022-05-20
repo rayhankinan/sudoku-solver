@@ -1,5 +1,6 @@
 package datastructures;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -38,9 +39,10 @@ public class Markup {
 
         } else {
             Iterator<Integer> it = this.valueBuffer.iterator();
+            int value = it.next();
             this.valueBuffer.clear();
 
-            return it.next();
+            return value;
         }
     }
 
@@ -73,5 +75,9 @@ public class Markup {
 
     public void removeAll(Markup markup) {
         this.valueBuffer.removeAll(markup.valueBuffer);
+    }
+
+    public String toString() {
+        return Arrays.toString(this.valueBuffer.toArray());
     }
 }

@@ -159,7 +159,7 @@ public class Sudoku {
                         PreemptiveSet preemptiveSet = new PreemptiveSet();
 
                         for (Cell travellingCell : row.getBuffer()) {
-                            if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                            if (currentCell.getMarkup().containsAll(travellingCell.getMarkup()) && travellingCell.getMarkup().getSize() > 0) {
                                 preemptiveSet.add(travellingCell);
                             }
                         }
@@ -187,7 +187,7 @@ public class Sudoku {
                         PreemptiveSet preemptiveSet = new PreemptiveSet();
 
                         for (Cell travellingCell : column.getBuffer()) {
-                            if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                            if (currentCell.getMarkup().containsAll(travellingCell.getMarkup()) && travellingCell.getMarkup().getSize() > 0) {
                                 preemptiveSet.add(travellingCell);
                             }
                         }
@@ -218,7 +218,7 @@ public class Sudoku {
                                 
                                 for (Cell[] travellingRow : grid.getBuffer()) {
                                     for (Cell travellingCell : travellingRow) {
-                                        if (currentCell.getMarkup().containsAll(travellingCell.getMarkup())) {
+                                        if (currentCell.getMarkup().containsAll(travellingCell.getMarkup()) && travellingCell.getMarkup().getSize() > 0) {
                                             preemptiveSet.add(travellingCell);
                                         }
                                     }
@@ -313,12 +313,12 @@ public class Sudoku {
         for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
                 if (j < Sudoku.size * Sudoku.size - 1) {
-                    // System.out.printf("%d ", this.buffer[i][j].getValue());
-                    System.out.printf("%d ", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
+                    System.out.printf("%d ", this.buffer[i][j].getValue());
+                    // System.out.printf("%d ", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
 
                 } else {
-                    // System.out.printf("%d\n", this.buffer[i][j].getValue());
-                    System.out.printf("%d\n", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
+                    System.out.printf("%d\n", this.buffer[i][j].getValue());
+                    // System.out.printf("%d\n", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
                 }
             }
         }
