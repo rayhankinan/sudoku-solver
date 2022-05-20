@@ -330,23 +330,37 @@ public class Sudoku {
             }
         }
 
-        return null;
+        throw new SudokuException("There is no empty cell left!");
     }
 
     public Sudoku changeFirstEmptyCell(int value) throws SudokuException {
         Sudoku newSudoku = this.cloneSudoku();
-        Cell firstEmptyCell = newSudoku.getFirstEmptyCell();
 
-        if (firstEmptyCell == null) {
-            throw new SudokuException("There is no empty cell left!");
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (newSudoku.getCell(i, j).getValue() == 0) {
+                    newSudoku.getCell(i, j).setManual(value);
 
-        } else {
-            firstEmptyCell.setManual(value);
+                    for (Cell cell : newSudoku.getRow(i).getBuffer()) {
+                        cell.getMarkup().remove(value);
+                    }
 
-            /* TODO: UBAH MARKUP SUDOKU KETIKA SET MANUAL */
+                    for (Cell cell : newSudoku.getColumn(j).getBuffer()) {
+                        cell.getMarkup().remove(value);
+                    }
 
-            return newSudoku;
+                    for (Cell[] row : newSudoku.getGrid(i / Sudoku.size, j / Sudoku.size).getBuffer()) {
+                        for (Cell cell : row) {
+                            cell.getMarkup().remove(value);
+                        }
+                    }
+
+                    return newSudoku;
+                }
+            }
         }
+
+        throw new SudokuException("There is no empty cell left!");
     }
 
     public void print() {

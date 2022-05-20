@@ -26,16 +26,20 @@ public class SearchTree {
 
             if (currentSudoku.isSolved()) {
                 this.solution = currentSudoku;
+                break;
 
             } else {
-                Cell firstEmptyCell = currentSudoku.getFirstEmptyCell();
+                try {
+                    Cell firstEmptyCell = currentSudoku.getFirstEmptyCell();
 
-                for (int value : firstEmptyCell.getMarkup().getValueBuffer()) {
-                    Sudoku newSudoku = currentSudoku.changeFirstEmptyCell(value);
+                    for (int value : firstEmptyCell.getMarkup().getValueBuffer()) {
+                        Sudoku newSudoku = currentSudoku.changeFirstEmptyCell(value);
 
-                    newSudoku.solve(); /* TODO: HAPUS METHOD SOLVE KRN SUDAH DIPINDAHKAN KE METHOD CHANGEFIRSTEMPTYCELL */
+                        S.push(newSudoku);
+                    }
 
-                    S.push(newSudoku);
+                } catch (SudokuException e) {
+                    continue;
                 }
             }
         }
