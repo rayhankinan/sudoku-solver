@@ -29,17 +29,17 @@ public class SearchTree {
                 break;
 
             } else {
-                try {
-                    Cell firstEmptyCell = currentSudoku.getFirstEmptyCell();
+                Cell firstEmptyCell = currentSudoku.getFirstEmptyCell();
 
-                    for (int value : firstEmptyCell.getMarkup().getValueBuffer()) {
+                for (int value : firstEmptyCell.getMarkup().getValueBuffer()) {
+                    try {
                         Sudoku newSudoku = currentSudoku.changeFirstEmptyCell(value);
 
                         S.push(newSudoku);
-                    }
 
-                } catch (SudokuException e) {
-                    continue;
+                    } catch (SudokuException e) {
+                        continue;
+                    }
                 }
             }
         }
