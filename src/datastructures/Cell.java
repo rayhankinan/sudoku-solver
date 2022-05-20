@@ -5,7 +5,7 @@ public class Cell {
     private Markup markup;
 
     public Cell(int value) throws SudokuException {
-        if (value <= 0 || value > Sudoku.size * Sudoku.size) {
+        if (value < 0 || value > Sudoku.size * Sudoku.size) {
             throw new SudokuException(String.format("Invalid cell value (%d)!", value));
 
         } else {
@@ -19,7 +19,7 @@ public class Cell {
     }
 
     public void setValue(int value) throws SudokuException {
-        if (value <= 0 || value > Sudoku.size * Sudoku.size) {
+        if (value < 0 || value > Sudoku.size * Sudoku.size) {
             throw new SudokuException(String.format("Invalid cell value (%d)!", value));
 
         } else {

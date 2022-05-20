@@ -107,7 +107,7 @@ public class Sudoku {
                         this.getCell(i, j).getMarkup().remove(cell.getValue());
                     }
     
-                    Grid grid = this.getGrid(i, j);
+                    Grid grid = this.getGrid(i / Sudoku.size, j / Sudoku.size);
                     for (Cell[] buffer : grid.getBuffer()) {
                         for (Cell cell : buffer) {
                             this.getCell(i, j).getMarkup().remove(cell.getValue());
@@ -121,7 +121,11 @@ public class Sudoku {
     public void findAllSingleton() throws SudokuException {
         for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
-                this.getCell(i, j).setSingleton();
+                try {
+                    this.getCell(i, j).setSingleton();
+                } catch (SudokuException e) {
+                    continue;
+                }
             }
         }
     }
@@ -302,5 +306,17 @@ public class Sudoku {
             this.loopCrooker();
 
         } while (!oldSolution.equals(this));
+    }
+
+    public void print() {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (j < Sudoku.size * Sudoku.size - 1) {
+                    System.out.printf("%d ", this.buffer[i][j].getValue());
+                } else {
+                    System.out.printf("%d\n", this.buffer[i][j].getValue());
+                }
+            }
+        }
     }
 }
