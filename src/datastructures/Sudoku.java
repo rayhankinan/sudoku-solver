@@ -231,6 +231,28 @@ public class Sudoku {
         }
     }
 
+    public void loopAllRowColumnGrid() throws SudokuException {
+        for (int N = 0; N < Sudoku.size * Sudoku.size; N++) {
+            for (int M = 0; M < Sudoku.size * Sudoku.size; M++) {
+                Grid grid = this.getGrid(N / Sudoku.size, M / Sudoku.size);
+                Row row = this.getRow(N);
+                Column column = this.getColumn(M);
+
+                PreemptiveSet preemptiveSetRow = new PreemptiveSet();
+                for (Cell C : grid.getRow(N % Sudoku.size).getBuffer()) {
+                    preemptiveSetRow.add(C);
+                }
+                row.removeAllCell(preemptiveSetRow);
+
+                PreemptiveSet preemptiveSetColumn = new PreemptiveSet();
+                for (Cell C : grid.getColumn(M & Sudoku.size).getBuffer()) {
+                    preemptiveSetRow.add(C);
+                }
+                column.removeAllCell(preemptiveSetColumn);
+            }
+        }
+    }
+
     public void loopCrooker() throws SudokuException {
         Sudoku oldCrookerSolution;
         do {
@@ -239,6 +261,7 @@ public class Sudoku {
             this.loopAllRow();
             this.loopAllColumn();
             this.loopAllGrid();
+            this.loopAllRowColumnGrid();
 
         } while(!oldCrookerSolution.equals(this));
     }

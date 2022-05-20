@@ -44,4 +44,28 @@ public class Grid {
             }
         }
     }
+
+    public Row getRow(int N) throws SudokuException {
+        if (N < 0 || N >= Sudoku.size) {
+            throw new SudokuException(String.format("Invalid row index (%d)!", N));
+
+        } else {
+            return new Row(this.buffer[N]);
+        }
+    }
+
+    public Column getColumn(int M) throws SudokuException {
+        if (M < 0 || M >= Sudoku.size) {
+            throw new SudokuException(String.format("Invalid column index (%d)!", M));
+
+        } else {
+            Cell[] column = new Cell[Sudoku.size];
+
+            for (int i = 0; i < Sudoku.size; i++) {
+                column[i] = this.buffer[i][M];
+            }
+
+            return new Column(column);
+        }
+    }
 }
