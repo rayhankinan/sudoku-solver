@@ -58,4 +58,8 @@ public class Markup {
 
         return M;
     }
+
+    public int getSize() {
+        return this.valueBuffer.size();
+    }
 }

@@ -18,16 +18,16 @@ public class Sudoku {
         }
     }
 
-    public Cell[] getRow(int N) throws SudokuException {
+    public Row getRow(int N) throws SudokuException {
         if (N < 0 || N >= Sudoku.size * Sudoku.size) {
             throw new SudokuException(String.format("Invalid row index (%d)!", N));
 
         } else {
-            return this.buffer[N];
+            return new Row(this.buffer[N]);
         }
     }
 
-    public Cell[] getColumn(int M) throws SudokuException {
+    public Column getColumn(int M) throws SudokuException {
         if (M < 0 || M >= Sudoku.size * Sudoku.size) {
             throw new SudokuException(String.format("Invalid column index (%d)!", M));
 
@@ -38,11 +38,11 @@ public class Sudoku {
                 column[i] = this.buffer[i][M];
             }
 
-            return column;
+            return new Column(column);
         }
     }
 
-    public Cell[][] getGrid(int N, int M) throws SudokuException {
+    public Grid getGrid(int N, int M) throws SudokuException {
         if (N < 0 || N >= Sudoku.size || M < 0 || M >= Sudoku.size) {
             throw new SudokuException(String.format("Invalid grid index (%d, %d)!", N, M));
 
@@ -55,51 +55,12 @@ public class Sudoku {
                 }
             }
 
-            return grid;
+            return new Grid(grid);
         }
     }
 
     public void setCell(int N, int M, Cell C) {
         this.buffer[N][M] = C;
-    }
-
-    public void markupAllCell() throws SudokuException {
-        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
-            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
-                if (this.getCell(i, j).getValue() == 0) {
-                    this.getCell(i, j).getMarkup().clear();
-
-                    for (int initialValue = 1; initialValue <= Sudoku.size * Sudoku.size; initialValue++) {
-                        this.getCell(i, j).getMarkup().addValue(initialValue);
-                    }
-
-                    Cell[] row = this.getRow(i);
-                    for (Cell cell : row) {
-                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
-                    }
-    
-                    Cell[] column = this.getColumn(j);
-                    for (Cell cell : column) {
-                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
-                    }
-    
-                    Cell[][] grid = this.getGrid(i, j);
-                    for (Cell[] buffer : grid) {
-                        for (Cell cell : buffer) {
-                            this.getCell(i, j).getMarkup().removeValue(cell.getValue());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void findAllSingleton() throws SudokuException {
-        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
-            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
-                this.getCell(i, j).setSingleton();
-            }
-        }
     }
 
     public boolean equals(Sudoku S) throws SudokuException {
@@ -126,6 +87,45 @@ public class Sudoku {
         return S;
     }
 
+    public void markupAllCell() throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                if (this.getCell(i, j).getValue() == 0) {
+                    this.getCell(i, j).getMarkup().clear();
+
+                    for (int initialValue = 1; initialValue <= Sudoku.size * Sudoku.size; initialValue++) {
+                        this.getCell(i, j).getMarkup().addValue(initialValue);
+                    }
+
+                    Row row = this.getRow(i);
+                    for (Cell cell : row.getBuffer()) {
+                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                    }
+    
+                    Column column = this.getColumn(j);
+                    for (Cell cell : column.getBuffer()) {
+                        this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                    }
+    
+                    Grid grid = this.getGrid(i, j);
+                    for (Cell[] buffer : grid.getBuffer()) {
+                        for (Cell cell : buffer) {
+                            this.getCell(i, j).getMarkup().removeValue(cell.getValue());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void findAllSingleton() throws SudokuException {
+        for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
+            for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                this.getCell(i, j).setSingleton();
+            }
+        }
+    }
+
     public void loopBasic() throws SudokuException {
         Sudoku oldSimpleSolution;
 
@@ -141,15 +141,56 @@ public class Sudoku {
         } while (!oldSimpleSolution.equals(this));
     }
 
+    public void loopAllRow() throws SudokuException {
+        for (int N = 0; N < Sudoku.size * Sudoku.size; N++) {
+            Row row = this.getRow(N);
+            
+            row.loopRow();
+            this.loopBasic();
+        }
+    }
+
+    public void loopAllColumn() throws SudokuException {
+        for (int M = 0; M < Sudoku.size * Sudoku.size; M++) {
+            Column column = this.getColumn(M);
+
+            column.loopColumn();
+            this.loopBasic();
+        }
+    }
+
+    public void loopAllGrid() throws SudokuException {
+        for (int N = 0; N < Sudoku.size; N++) {
+            for (int M = 0; M < Sudoku.size; M++) {
+                Grid grid = this.getGrid(N, M);
+
+                grid.loopGrid();
+                this.loopBasic();
+            }
+        }
+    }
+
     public void loopCrooker() throws SudokuException {
         Sudoku oldCrookerSolution;
         do {
             oldCrookerSolution = this.cloneSudoku();
-            
-            /* TODO: SOLVE USING CROOK'S ALGORITHM */
 
-            
+            this.loopAllRow();
+            this.loopAllColumn();
+            this.loopAllGrid();
 
         } while(!oldCrookerSolution.equals(this));
+    }
+
+    public void solve() throws SudokuException {
+        Sudoku oldSolution;
+
+        do {
+            oldSolution = this.cloneSudoku();
+
+            this.loopBasic();
+            this.loopCrooker();
+
+        } while (!oldSolution.equals(this));
     }
 }

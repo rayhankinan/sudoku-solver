@@ -11,15 +11,9 @@ public class SearchTree {
     }
 
     public void solve() throws SudokuException {
-        Sudoku oldSolution;
-
-        do {
-            oldSolution = this.root.cloneSudoku();
-
-            this.root.loopBasic();
-            this.root.loopCrooker();
-
-        } while (!oldSolution.equals(this.root));
+        /* TODO: SHOW ALL SOLUTION USING BFS OR DFS */
+        
+        this.root.solve();
     }
 
     public Sudoku getRoot() {
