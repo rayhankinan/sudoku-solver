@@ -27,6 +27,7 @@ public class App {
             double executionTime = ((double) (endTime - startTime)) * 1e-9;
             BigDecimal bigDecimal = new BigDecimal(executionTime).setScale(3, RoundingMode.HALF_EVEN);
 
+            System.out.println();
             searchTree.getSolution().print();
 
             System.out.printf("Waktu eksekusi: %.3f s\n", bigDecimal.doubleValue());
