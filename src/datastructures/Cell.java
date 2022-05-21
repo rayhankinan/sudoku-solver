@@ -56,8 +56,4 @@ public class Cell {
 
         return C;
     }
-
-    public String toString() {
-        return String.format("%d %s", this.value, this.markup.toString());
-    }
 }

@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Scanner;
 
 import algorithms.SearchTree;
@@ -18,9 +20,16 @@ public class App {
         if (sudoku != null) {
             SearchTree searchTree = new SearchTree(sudoku);
 
+            long startTime = System.nanoTime();
             searchTree.solve();
+            long endTime = System.nanoTime();
+
+            double executionTime = ((double) (endTime - startTime)) * 1e-9;
+            BigDecimal bigDecimal = new BigDecimal(executionTime).setScale(3, RoundingMode.HALF_EVEN);
 
             searchTree.getSolution().print();
+
+            System.out.printf("Waktu eksekusi: %.3f s\n", bigDecimal.doubleValue());
         }
 
         scanner.close();

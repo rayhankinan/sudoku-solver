@@ -366,13 +366,37 @@ public class Sudoku {
     public void print() {
         for (int i = 0; i < Sudoku.size * Sudoku.size; i++) {
             for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
-                if (j < Sudoku.size * Sudoku.size - 1) {
-                    System.out.printf("%d ", this.buffer[i][j].getValue());
-                    // System.out.printf("%d ", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
+                if ((j + 1) % Sudoku.size == 0) {
+                    if (j + 1 < Sudoku.size * Sudoku.size) {
+                        System.out.printf("%d | ", this.buffer[i][j].getValue());
+
+                    } else {
+                        System.out.printf("%d\n", this.buffer[i][j].getValue());
+                    }
 
                 } else {
-                    System.out.printf("%d\n", this.buffer[i][j].getValue());
-                    // System.out.printf("%d\n", this.buffer[i][j].getMarkup().getSize()); /* REMOVE THIS */
+                    System.out.printf("%d ", this.buffer[i][j].getValue());
+                }
+            }
+
+            if ((i + 1) % Sudoku.size == 0) {
+                if (i + 1 < Sudoku.size * Sudoku.size) {
+                    for (int j = 0; j < Sudoku.size * Sudoku.size; j++) {
+                        if ((j + 1) % Sudoku.size == 0) {
+                            if (j + 1 < Sudoku.size * Sudoku.size) {
+                                System.out.print("--+-");
+
+                            } else {
+                                System.out.print("-\n");
+                            }
+
+                        } else {
+                            System.out.print("--");
+                        }
+                    }
+
+                } else {
+                    System.out.println();
                 }
             }
         }
