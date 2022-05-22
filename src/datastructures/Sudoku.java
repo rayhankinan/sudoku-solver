@@ -284,17 +284,17 @@ public class Sudoku {
         }
     }
 
-    public void loopCrooker() throws SudokuException {
-        Sudoku oldCrookerSolution;
+    public void loopCrook() throws SudokuException {
+        Sudoku oldCrookSolution;
         do {
-            oldCrookerSolution = this.cloneSudoku();
+            oldCrookSolution = this.cloneSudoku();
 
             this.loopAllRow();
             this.loopAllColumn();
             this.loopAllGrid();
             this.loopAllRowColumnGrid();
 
-        } while(!oldCrookerSolution.equals(this));
+        } while(!oldCrookSolution.equals(this));
     }
 
     public void solve() throws SudokuException {
@@ -304,7 +304,7 @@ public class Sudoku {
             oldSolution = this.cloneSudoku();
 
             this.loopBasic();
-            this.loopCrooker();
+            this.loopCrook();
 
         } while (!oldSolution.equals(this));
     }
